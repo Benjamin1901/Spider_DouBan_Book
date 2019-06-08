@@ -59,7 +59,7 @@ public class Main {
     }
 
     /**
-     * 通过详细页去爬去现价、目录
+     * 通过详细页去爬去现价、目录、评论。
      *
      * @param url https://book.douban.com/subject/26953606/
      * @throws IOException
@@ -91,8 +91,6 @@ public class Main {
         mapper.updateByPrimaryKeySelective(book);
         session.commit();
 
-
-//#comments > ul > li:nth-child(1) > div > h3 > span.comment-info > a
 
         //爬取评论
         Elements elements = document.select("#comments:nth-child(1) > ul > li");
@@ -187,7 +185,6 @@ public class Main {
             //书的ISBM13
             if (element.attributeValue("name").equals("isbn13")) {
                 book.setIsbn(element.getText());
-                System.out.println("1111111111");
             }
 
             //页数
@@ -263,29 +260,29 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
+//        1、先通过标签页爬取图书的id信息
 //        for (int i = 1; i <= 74; i++) {
-//            sclaw("https://book.douban.com/tag/%E5%8E%86%E5%8F%B2?start=" + i * 20+ "&type=T");
+//            sclawByIndex("https://book.douban.com/tag/%E5%8E%86%E5%8F%B2?start=" + i * 20+ "&type=T");
 //            System.out.println(i);
 //            Thread.sleep(1000);
 //        }
-
-//        sclawByAPI("http://api.douban.com/book/subject/26953606");
-
-
-
+           
+        
+//        2、通过豆瓣的官方API爬取图书更多的信息，官方的api现在用不了，可以使用这个 https://douban-api-docs.zce.me/
 //        List<Book> list = mapper.selectByExample(null);
 //        LinkedList<String> list1 = new LinkedList();
 //        for (int i = 0; i < list.size(); i++) {
 //            int bookId = list.get(i).getId();
 //            list1.add("http://api.douban.com/book/subject/" + bookId);
 //        }
-//
-//        for (int i = 346; i < 1314; i++) {
+//        for (int i = 0; i < 1314; i++) {
 //            sclawByAPI(list1.get(i));
 //            System.out.println("当前--->" + (i+1));
 //        }
 
-
+        
+        
+        //3、通过图书的id去爬取豆瓣图书现价、目录、评论。
         List<Book> list = mapper.selectByExample(null);
         for (int i = 0; i < list.size(); i++) {
             int bookId = list.get(i).getId();
