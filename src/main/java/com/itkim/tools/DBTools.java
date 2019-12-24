@@ -9,7 +9,6 @@ import java.io.Reader;
 
 /**
  * @description: TODO
- * @author: KimJun
  * @date: 18/12/27 18:59
  */
 public class DBTools {
